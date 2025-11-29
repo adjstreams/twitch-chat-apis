@@ -1,0 +1,47 @@
+{
+	"name": "chat-api",
+	"version": "0.1.0",
+	"description": "Cloudflare Worker APIs for Twitch chatbots (e.g. StreamElements customapi endpoints).",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/adjstreams/twitch-chat-apis.git"
+	},
+	"author": "ADJStreams <adj.gg>",
+	"keywords": [
+		"cloudflare-workers",
+		"twitch",
+		"streamelements",
+		"chatbot",
+		"typescript"
+	],
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"test": "vitest",
+		"cf-typegen": "wrangler types",
+		"commit": "cz",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"config": {
+		"commitizen": {
+			"path": "cz-conventional-changelog"
+		}
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.8.19",
+		"@eslint/js": "^9.39.1",
+		"commitizen": "^4.3.1",
+		"cz-conventional-changelog": "^3.3.0",
+		"eslint": "^9.39.1",
+		"eslint-config-prettier": "^10.1.8",
+		"typescript": "^5.5.2",
+		"typescript-eslint": "^8.48.0",
+		"vitest": "~3.2.0",
+		"wrangler": "^4.51.0"
+	}
+}
