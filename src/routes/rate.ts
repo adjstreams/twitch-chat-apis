@@ -1,6 +1,11 @@
+import { sanitizeUsername, sanitizeRecipient } from "../utils/validation";
+import { TEXT_PLAIN_HEADERS } from "../utils/response";
+
 export function handleRate(url: URL): Response {
-  const user = url.searchParams.get("user") ?? "someone";
-  const toUser = url.searchParams.get("touser") ?? user;
+  const userParam = url.searchParams.get("user");
+  const user = sanitizeUsername(userParam);
+  const toUserParam = url.searchParams.get("touser");
+  const toUser = toUserParam ? sanitizeRecipient(toUserParam) : user;
 
   const roll = Math.floor(Math.random() * 101); // 0–100
 
@@ -15,6 +20,6 @@ export function handleRate(url: URL): Response {
   }
 
   return new Response(message, {
-    headers: { "Content-Type": "text/plain" },
+    headers: TEXT_PLAIN_HEADERS,
   });
 }

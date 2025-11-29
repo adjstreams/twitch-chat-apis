@@ -4,10 +4,9 @@ import {
   type OutcomeTarget,
   type ResolvedOutcome,
 } from "./outcomes";
-
-function pickRandom<T>(items: T[]): T {
-  return items[Math.floor(Math.random() * items.length)];
-}
+import { sanitizeUsername } from "../../utils/validation";
+import { pickRandom } from "../../utils/random";
+import { TEXT_PLAIN_HEADERS } from "../../utils/response";
 
 function resolveOutcome(roll: number): ResolvedOutcome {
   const exactMatches = EXACT_OUTCOMES.filter((o) => o.roll === roll);
@@ -37,8 +36,10 @@ function resolveOutcome(roll: number): ResolvedOutcome {
 }
 
 export function handleAttack(url: URL): Response {
-  const user = url.searchParams.get("user")?.trim() || "someone";
-  const toUser = url.searchParams.get("touser")?.trim() || user;
+  const userParam = url.searchParams.get("user");
+  const user = sanitizeUsername(userParam);
+  const toUserParam = url.searchParams.get("touser");
+  const toUser = toUserParam ? sanitizeUsername(toUserParam, user) : user;
 
   const roll = Math.floor(Math.random() * 100) + 1; // 1–100
   const outcome = resolveOutcome(roll);
@@ -47,6 +48,6 @@ export function handleAttack(url: URL): Response {
   const message = `${user} scores ${roll}%. ${victim} ${outcome.description}`;
 
   return new Response(message, {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
+    headers: TEXT_PLAIN_HEADERS,
   });
 }

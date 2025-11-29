@@ -2,8 +2,8 @@
 
 A small, modular Cloudflare Worker that exposes simple API endpoints designed
 for Twitch chatbots (e.g. StreamElements `$(customapi)` commands).  
-This project currently includes a `/rate` endpoint, with a structure that makes
-it easy to add more (e.g. `/attack`, `/roast`, `/xmas`, etc).
+This project includes `/rate`, `/attack`, and `/gift` endpoints, with a structure that makes
+it easy to add more (e.g. `/roast`, etc).
 
 This repo is intentionally simple, public, and easy to fork — a clean example of
 a modern TypeScript Cloudflare Worker with routing, tests, and CI-friendly setup.
@@ -29,6 +29,22 @@ Returns a random rating (0–100%) with some fun flavour text.
 Example:
 ```
 ADJStreams rates Chat 73%
+```
+
+### `/attack?user=NAME&touser=NAME`
+Returns a random attack outcome (1–100%) with creative descriptions based on the roll. Low rolls result in self-inflicted failures, high rolls deliver epic attacks.
+
+Example:
+```
+ADJStreams scores 85%. Chat was brutally slashed by Rivers of Blood
+```
+
+### `/gift?user=NAME&touser=NAME`
+Returns a random fictional gift with effort description and recipient reaction. Includes a disclaimer that gifts are fictional.
+
+Example:
+```
+@ADJStreams gave it a lot of thought and got Chat a Steam game that Chat actually wanted. Chat absolutely loves it. (DISCLAIMER: This is a joke, gifts are entirely fictional!)
 ```
 
 ---
@@ -88,6 +104,7 @@ Inside your custom command, something like:
 
 !attack = $(customapi https://<your-worker>.<cloudflare-account>.workers.dev/attack?user=$(sender)&touser=$(touser))
 
+!gift = $(customapi https://<your-worker>.<cloudflare-account>.workers.dev/gift?user=$(sender)&touser=$(touser))
 ```
 
 ---
@@ -120,8 +137,11 @@ npm test
 Covers:
 
 - routing (`test/index.spec.ts`)
-- registry correctness (`test/registry.spec.ts`)
+- registry correctness (`test/routeRegistry.spec.ts`)
 - `/rate` handler (`test/routes/rate.spec.ts`)
+- `/attack` handler (`test/routes/attack/handler.spec.ts`)
+- `/attack` outcomes (`test/routes/attack/outcomes.spec.ts`)
+- `/gift` handler (`test/routes/gift/handler.spec.ts`)
 
 ---
 
@@ -134,12 +154,24 @@ src/
   routeRegistry.ts
   routes/
     rate.ts
+    attack/
+      handler.ts
+      outcomes.ts
+    gift/
+      handler.ts
+      giftEngine.ts
+      giftDefs.ts
 
 test/
   index.spec.ts
-  registry.spec.ts
+  routeRegistry.spec.ts
   routes/
     rate.spec.ts
+    attack/
+      handler.spec.ts
+      outcomes.spec.ts
+    gift/
+      handler.spec.ts
 ```
 
 ---

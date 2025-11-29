@@ -1,6 +1,7 @@
 import type { RouteHandler } from "./types";
 import { handleRate } from "./routes/rate";
 import { handleAttack } from "./routes/attack/handler";
+import { handleGift } from "./routes/gift/handler";
 
 interface RouteConfig {
   handler: RouteHandler;
@@ -15,5 +16,10 @@ export const routes: Record<string, RouteConfig> = {
   "/attack": {
     handler: (url, _env, _ctx) => handleAttack(url),
     description: "/attack?user=NAME&touser=NAME – returns a random attack outcome",
+  },
+  "/gift": {
+    handler: (url, _env, _ctx) => handleGift(url),
+    description:
+      "/gift?user=NAME&touser=NAME – returns a random fictional gift + reaction",
   },
 };
