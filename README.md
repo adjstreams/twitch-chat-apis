@@ -2,8 +2,8 @@
 
 A small, modular Cloudflare Worker that exposes simple API endpoints designed
 for Twitch chatbots (e.g. StreamElements `$(customapi)` commands).  
-This project currently includes a `/rate` endpoint, with a structure that makes
-it easy to add more (e.g. `/attack`, `/roast`, `/xmas`, etc).
+This project currently includes `/rate` and `/attack` endpoints, with a structure that makes
+it easy to add more (e.g. `/roast`, `/gift`, etc).
 
 This repo is intentionally simple, public, and easy to fork — a clean example of
 a modern TypeScript Cloudflare Worker with routing, tests, and CI-friendly setup.
@@ -29,6 +29,15 @@ Returns a random rating (0–100%) with some fun flavour text.
 Example:
 ```
 ADJStreams rates Chat 73%
+```
+
+### `/attack?user=NAME&touser=NAME`
+Returns a random attack outcome, including failed attacks for low scores.
+
+Example:
+```
+"ADJStreams scores 100%. lxbytes was annihilated by Moonlight Great Sword"
+"ADJStreams scores 4%. ADJStreams slipped on an imaginary banana peel"
 ```
 
 ---
