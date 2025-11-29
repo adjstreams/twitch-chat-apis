@@ -79,12 +79,15 @@ wrangler deploy
 
 ---
 
-## 🎮 StreamElements Usage
+## 🎮 StreamElements Chatbot Usage
 
-Inside your custom command:
+Inside your custom command, something like:
 
 ```
-$(customapi https://<your-worker>.<cloudflare-account>.workers.dev/rate?user=$(sender)&touser=$(touser))
+!rate = $(customapi https://<your-worker>.<cloudflare-account>.workers.dev/rate?user=$(sender)&touser=$(touser))
+
+!attack = $(customapi https://<your-worker>.<cloudflare-account>.workers.dev/attack?user=$(sender)&touser=$(touser))
+
 ```
 
 ---
